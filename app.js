@@ -16,11 +16,10 @@ const MONGODB_URI =
 const app = express();
 const store = new MongoDBStore({
   uri: MONGODB_URI,
-  collection: 'sessions',
+  collection: 'sessions'
 });
 
 const csrfProtection = csrf();
-
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -36,7 +35,7 @@ app.use(
     secret: 'my secret',
     resave: false,
     saveUninitialized: false,
-    store: store,
+    store: store
   })
 );
 app.use(csrfProtection);
@@ -58,7 +57,7 @@ app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
   next();
-})
+});
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
