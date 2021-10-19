@@ -11,11 +11,8 @@
             </div>
             <h2><%= product.price %></h2>
             <p><%= product.description %></p>
-            <% if(isAuthenticated) { %>
-                <%- include('../includes/add-to-cart.ejs') %>
+            <% if (isAuthenticated) { %>
+                <%- include('../includes/add-to-cart.ejs', {product: product}) %>
             <% } %>
-            <a href="/products"><button class="btn">
-                Go Back
-            </button></a>
         </main>
         <%- include('../includes/end.ejs') %>
