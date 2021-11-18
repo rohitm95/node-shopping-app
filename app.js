@@ -10,11 +10,9 @@ const authRoutes = require('./routes/auth');
 
 const MONGODB_URI =
 	'mongodb+srv://rohit-admin:AVCL0NpcgGNrcri2@cluster0.yvazp.mongodb.net/messages';
-
 const app = express();
 
 const { v4: uuidv4 } = require('uuid');
-
 const fileStorage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		cb(null, 'images');
@@ -62,8 +60,12 @@ app.use((error, req, res, next) => {
 mongoose
 	.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(result => {
-		app.listen(8080);
+		const server = app.listen(8080);
 		console.log('Connected to 8080!');
+		const io = require('./socket').init(server);
+		io.on('connection', socket => {
+			console.log('Client connected');
+		});
 	})
 	.catch(err => {
 		// console.log(err);
